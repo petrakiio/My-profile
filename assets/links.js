@@ -5,7 +5,6 @@ const elements = {
     whatts: document.getElementById('zap'),
     git: document.getElementById('git'),
     btnport: document.getElementById('port'),
-    btnproj: document.getElementById('proj')
 };
 
 elements.git.onclick = () =>
@@ -17,8 +16,6 @@ elements.linkd.onclick = () =>
 elements.disc.onclick = () =>
     window.open('https://discord.com/users/1325631694773944320', '_blank');
 
-elements.btnproj.onclick = () =>
-    window.open('https://petrakiio.github.io/WoodLab/index.html', '_blank');
 
 elements.btnport.onclick = () =>
     window.open('https://petrakiio.github.io/Portifolio/', '_blank');
