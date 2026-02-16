@@ -11,6 +11,12 @@ const elements = {
 const root = document.documentElement;
 const THEME_KEY = 'themePreference';
 
+const updateGitThemeImage = (theme) => {
+    if (elements.git) {
+        elements.git.src = theme === 'light' ? './img/gh-light.webp' : './img/gh.webp';
+    }
+};
+
 const updateThemeToggleLabel = (theme) => {
     if (elements.themeToggle) {
         const icon = elements.themeToggle.querySelector('.theme-icon');
@@ -28,6 +34,7 @@ const updateThemeToggleLabel = (theme) => {
 const applyTheme = (theme) => {
     root.setAttribute('data-theme', theme);
     localStorage.setItem(THEME_KEY, theme);
+    updateGitThemeImage(theme);
     updateThemeToggleLabel(theme);
 };
 
@@ -37,6 +44,7 @@ const initializeTheme = () => {
     const initialTheme = savedTheme || (systemPrefersLight ? 'light' : 'dark');
 
     root.setAttribute('data-theme', initialTheme);
+    updateGitThemeImage(initialTheme);
     updateThemeToggleLabel(initialTheme);
 };
 
