@@ -1,12 +1,42 @@
 :root {
     --primary: #ff2b3a;
     --secondary: #ff7a8a;
-    --bg-dark: #060b14;
     --bg-card: rgba(18, 18, 18, 0.9);
     --text: #e9f3ff;
     --muted-text: #cfcfcf;
     --card-border: rgba(255, 43, 58, 0.24);
+    --body-background:
+        radial-gradient(circle at 12% 8%, rgba(255, 43, 58, 0.24), transparent 38%),
+        radial-gradient(circle at 90% 88%, rgba(255, 122, 138, 0.16), transparent 42%),
+        linear-gradient(120deg, #060b14, #140911 58%, #19080f);
+    --title-shadow: 0 0 22px rgba(255, 43, 58, 0.35);
+    --container-shadow: 0 16px 42px rgba(0, 0, 0, 0.45);
+    --icon-bg: #11141c;
+    --icon-border: rgba(255, 255, 255, 0.1);
+    --icon-hover-shadow: 0 10px 20px rgba(0, 0, 0, 0.35);
+    --tec-overlay: linear-gradient(120deg, rgba(6, 11, 20, 0.9), rgba(30, 8, 18, 0.78));
+    --button-hover-text: #000;
     --transition: 0.3s ease-in-out;
+    color-scheme: dark;
+}
+
+:root[data-theme="light"] {
+    --bg-card: rgba(255, 255, 255, 0.92);
+    --text: #191b20;
+    --muted-text: #4b5563;
+    --card-border: rgba(255, 43, 58, 0.22);
+    --body-background:
+        radial-gradient(circle at 10% 12%, rgba(255, 122, 138, 0.24), transparent 42%),
+        radial-gradient(circle at 92% 82%, rgba(255, 43, 58, 0.18), transparent 40%),
+        linear-gradient(120deg, #fff4f6, #fff8ef 52%, #f3f9ff);
+    --title-shadow: 0 0 16px rgba(255, 43, 58, 0.2);
+    --container-shadow: 0 16px 42px rgba(34, 39, 46, 0.15);
+    --icon-bg: rgba(255, 255, 255, 0.9);
+    --icon-border: rgba(136, 146, 176, 0.28);
+    --icon-hover-shadow: 0 10px 20px rgba(34, 39, 46, 0.18);
+    --tec-overlay: linear-gradient(120deg, rgba(255, 255, 255, 0.9), rgba(255, 234, 238, 0.72));
+    --button-hover-text: #fff;
+    color-scheme: light;
 }
 
 * {
@@ -24,10 +54,7 @@ body {
     align-items: center;
     justify-content: center;
     padding: 20px;
-    background:
-        radial-gradient(circle at 12% 8%, rgba(255, 43, 58, 0.24), transparent 38%),
-        radial-gradient(circle at 90% 88%, rgba(255, 122, 138, 0.16), transparent 42%),
-        linear-gradient(120deg, #060b14, #140911 58%, #19080f);
+    background: var(--body-background);
 }
 
 h1 {
@@ -36,19 +63,65 @@ h1 {
     font-size: clamp(1.8rem, 5vw, 2.45rem);
     margin-bottom: 24px;
     color: var(--primary);
-    text-shadow: 0 0 22px rgba(255, 43, 58, 0.35);
+    text-shadow: var(--title-shadow);
 }
 
 .container {
     width: 100%;
     max-width: 520px;
+    position: relative;
     background: var(--bg-card);
     border: 1px solid var(--card-border);
     border-radius: 20px;
     padding: 30px;
     text-align: center;
-    box-shadow: 0 16px 42px rgba(0, 0, 0, 0.45);
+    box-shadow: var(--container-shadow);
     backdrop-filter: blur(8px);
+}
+
+#theme-toggle {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    width: 56px;
+    height: 56px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--card-border);
+    background: var(--bg-card);
+    color: var(--text);
+    border-radius: 50%;
+    padding: 0;
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: var(--container-shadow);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+    transition: background-color var(--transition), color var(--transition), transform var(--transition), box-shadow var(--transition);
+}
+
+#theme-toggle:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 43, 58, 0.1);
+}
+
+.theme-icon {
+    display: inline-block;
+    line-height: 1;
+}
+
+:root[data-theme="light"] .theme-icon {
+    animation: sun-spin 8s linear infinite;
+}
+
+@keyframes sun-spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .container p {
@@ -82,8 +155,8 @@ h1 {
     padding: 10px;
     margin: 6px;
     border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: #11141c;
+    border: 1px solid var(--icon-border);
+    background: var(--icon-bg);
     cursor: pointer;
     filter: grayscale(100%);
     opacity: 0.75;
@@ -95,7 +168,7 @@ h1 {
     filter: grayscale(0%);
     opacity: 1;
     border-color: rgba(255, 43, 58, 0.5);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.35);
+    box-shadow: var(--icon-hover-shadow);
 }
 
 h2 {
@@ -109,9 +182,7 @@ h2 {
     padding: 22px;
     border-radius: 14px;
     border: 1px solid var(--card-border);
-    background-image:
-        linear-gradient(120deg, rgba(6, 11, 20, 0.9), rgba(30, 8, 18, 0.78)),
-        url("../img/fundo.jpg");
+    background-image: var(--tec-overlay), url("../img/fundo.jpg");
     background-size: cover;
     background-position: center;
     display: grid;
@@ -180,7 +251,7 @@ h2 {
 #port:hover,
 #proj:hover {
     transform: translateY(-2px);
-    color: #000;
+    color: var(--button-hover-text);
     background: var(--primary);
     box-shadow: 0 0 18px rgba(255, 43, 58, 0.35);
 }

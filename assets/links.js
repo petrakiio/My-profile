@@ -5,7 +5,50 @@ const elements = {
     whatts: document.getElementById('zap'),
     git: document.getElementById('git'),
     btnport: document.getElementById('port'),
+    themeToggle: document.getElementById('theme-toggle'),
 };
+
+const root = document.documentElement;
+const THEME_KEY = 'themePreference';
+
+const updateThemeToggleLabel = (theme) => {
+    if (elements.themeToggle) {
+        const icon = elements.themeToggle.querySelector('.theme-icon');
+        const isLight = theme === 'light';
+
+        if (icon) {
+            icon.textContent = isLight ? '☀' : '🌙';
+        }
+
+        elements.themeToggle.setAttribute('aria-label', isLight ? 'Ativar modo escuro' : 'Ativar modo claro');
+        elements.themeToggle.title = isLight ? 'Modo escuro' : 'Modo claro';
+    }
+};
+
+const applyTheme = (theme) => {
+    root.setAttribute('data-theme', theme);
+    localStorage.setItem(THEME_KEY, theme);
+    updateThemeToggleLabel(theme);
+};
+
+const initializeTheme = () => {
+    const savedTheme = localStorage.getItem(THEME_KEY);
+    const systemPrefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+    const initialTheme = savedTheme || (systemPrefersLight ? 'light' : 'dark');
+
+    root.setAttribute('data-theme', initialTheme);
+    updateThemeToggleLabel(initialTheme);
+};
+
+initializeTheme();
+
+if (elements.themeToggle) {
+    elements.themeToggle.onclick = () => {
+        const currentTheme = root.getAttribute('data-theme') || 'dark';
+        const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        applyTheme(nextTheme);
+    };
+}
 
 elements.git.onclick = () =>
     window.open('https://github.com/petrakiio', '_blank');
@@ -47,4 +90,3 @@ elements.whatts.onclick = () => {
         window.open(`https://wa.me/${phone}`, "_blank");
     }
 };
-
